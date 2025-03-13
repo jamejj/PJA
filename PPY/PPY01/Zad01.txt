@@ -1,0 +1,17 @@
+#Zadanie i odpowiedz z interpretatora
+
+>>> a,b,c = 2, 5, 3
+>>> delta = (b**2) - 4*a*c
+>>> print(delta)
+1
+>>>
+>>> if delta > 0:
+...     print("Delta jest większa od 0")
+... elif delta == 0:
+...
+print("Delta jest równa 0")
+... else:
+...     print("Delta jest mniejsza od 0")
+...
+Delta jest większa od 0
+>>>
