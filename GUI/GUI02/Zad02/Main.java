@@ -19,7 +19,7 @@ public class Main {
         Spiewak s3 = new Spiewak (" Dżem") {
             @Override
             String spiewaj() {
-                return "Chwila, która trwa może być najlepsz ą z Twoich chwil ...";
+                return "Chwila, która trwa może być najlepszą z Twoich chwil ...";
             }
 
         };

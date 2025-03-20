@@ -14,6 +14,8 @@ public class Main {
         figury.add(kwadrat1);
         figury.add(kolo1);
         figury.add(kwadrat2);
+        figury.add(kolo2);
+
 
         System.out.println(figury.toString());
 
