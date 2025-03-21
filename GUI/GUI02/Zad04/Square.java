@@ -18,10 +18,6 @@ public class Square implements Figure{
         return length*length;
     }
 
-    @Override
-    public int getPerimeter() {
-        return 0;
-    }
 
     @Override
     public String toString() {
