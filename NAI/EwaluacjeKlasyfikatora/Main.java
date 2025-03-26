@@ -1,5 +1,4 @@
-package Ewaluacje;
-
+package EwaluacjeKlasyfikatora;
 
 public class Main {
     public static void main(String[] args) {
