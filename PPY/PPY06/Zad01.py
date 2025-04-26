@@ -10,4 +10,3 @@ for i in range(wszystkie_znaki):
     kolumna3 = "$" if i < dolary_ilosc else " "
 
     print(f"{kolumna1} {kolumna2} {kolumna3}")
-
