@@ -20,7 +20,7 @@ public class Zad02 {
             }
             @Override
             public void setForeground(Color c) {
-                super.setForeground(Color.BLUE);
+                super.setForeground(Color.ORANGE);
             }
 
             @Override
@@ -31,12 +31,8 @@ public class Zad02 {
         textArea.setBackground(Color.BLUE);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
-
-        
         frame.add(scrollPane);
-
         frame.setVisible(true);
 
     }
-
 }

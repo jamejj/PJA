@@ -9,8 +9,8 @@ public class Zad03 {
         SwingUtilities.invokeLater(() -> new Okno());
 
     }
-
 }
+
 class Okno extends JFrame {
 
     public Okno() {
@@ -18,7 +18,7 @@ class Okno extends JFrame {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Zad 03");
-        frame.setSize(300, 300);
+        frame.setSize(300, 400);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3,2));
@@ -35,10 +35,8 @@ class Okno extends JFrame {
         panel.add(new JButton("P4"));
         panel.add(new JButton("Duży przycisk o numerze 5"));
 
-
         frame.add(panel);
         frame.setVisible(true);
-
 
     }
 }

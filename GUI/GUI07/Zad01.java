@@ -8,7 +8,7 @@ public class Zad01 {
 
         JFrame frame = new JFrame("Moje okno");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
+        frame.setSize(500, 550);
 
         JPanel mainPanel = new JPanel(){
             @Override
@@ -21,6 +21,5 @@ public class Zad01 {
 
         frame.add(mainPanel);
         frame.setVisible(true);
-
     }
 }
