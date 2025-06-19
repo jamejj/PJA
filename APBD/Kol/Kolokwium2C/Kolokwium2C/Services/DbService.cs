@@ -1,0 +1,128 @@
+﻿using Kolokwium2C.Data;
+using Kolokwium2C.DTOs;
+using Kolokwium2C.Exceptions;
+using Kolokwium2C.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Kolokwium2C.Services;
+
+public class DbService : IDbService
+{
+    private readonly DatabaseContext _context;
+
+    public DbService(DatabaseContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<RacerDto> GetRacerParticipationAsync(int id)
+    {
+        var racer = await _context.Racers
+            .Include(r => r.Participations)
+            .ThenInclude(p => p.Race)
+            .Include(r => r.Participations)
+            .ThenInclude(p => p.Track)
+            .FirstOrDefaultAsync(r => r.RacerId == id);
+
+        if (racer == null)
+            throw new NotFoundException("Racer not found");
+
+        var participationRaceIds = racer.Participations.Select(p => p.RaceId).Distinct();
+        var participationTrackIds = racer.Participations.Select(p => p.TrackId).Distinct();
+
+        var trackRaces = await _context.TrackRaces
+            .Where(tr => participationRaceIds.Contains(tr.RaceId) && 
+                         participationTrackIds.Contains(tr.TrackId))
+            .ToListAsync();
+
+        var dto = new RacerDto
+        {
+            RacerId = racer.RacerId,
+            FirstName = racer.FirstName,
+            LastName = racer.LastName,
+            Participations = racer.Participations.Select(p => 
+            {
+                var trackRace = trackRaces.FirstOrDefault(tr => 
+                    tr.RaceId == p.RaceId && tr.TrackId == p.TrackId);
+                
+                return new RacerParticipationDto
+                {
+                    RaceName = p.Race.Name,
+                    TrackName = p.Track.Name,
+                    Laps = trackRace?.Laps ?? 0,
+                    BestTimeInSeconds = trackRace?.BestTimeInSeconds ?? 0,
+                    FinishTimeInSeconds = p.FinishTimeInSeconds,
+                    Position = p.Position
+                };
+            }).ToList()
+        };
+
+        return dto;
+    }
+
+public async Task AddParticipantsToTrackRaceAsync(TrackRaceParticipantsRequest dto)
+{ 
+// Znajdź wyścig 
+    var race = await _context.Races
+        .FirstOrDefaultAsync(r => r.Name == dto.RaceName);
+    if (race == null)
+        throw new BadRequestException("Race not found");
+
+// Znajdź tor 
+    var track = await _context.Tracks
+        .FirstOrDefaultAsync(t => t.Name == dto.TrackName);
+    if (track == null)
+        throw new BadRequestException("Track not found");
+
+// Znajdź/stwórz TR
+    var trackRace = await _context.TrackRaces
+        .FirstOrDefaultAsync(tr => tr.RaceId == race.RaceId && tr.TrackId == track.TrackId);
+
+    if (trackRace == null)
+    {
+        trackRace = new TrackRace
+        {
+            RaceId = race.RaceId,
+            TrackId = track.TrackId,
+            Laps = 0,
+            BestTimeInSeconds = int.MaxValue
+        };
+        _context.TrackRaces.Add(trackRace);
+    }
+
+//Dodaj uczestników
+    foreach (var participant in dto.Participations)
+    {
+//Sprawdź czy zawodnik istnieje
+        var racerExists = await _context.Racers.AnyAsync(r => r.RacerId == participant.RacerId);
+        if (!racerExists)
+            throw new BadRequestException($"Racer with id {participant.RacerId} not found");
+
+//Sprawdź czy już nie uczestniczy
+        var alreadyParticipating = await _context.RaceParticipations
+            .AnyAsync(rp => rp.RacerId == participant.RacerId && 
+                           rp.RaceId == race.RaceId && 
+                           rp.TrackId == track.TrackId);
+        if (alreadyParticipating)
+            throw new BadRequestException($"Racer {participant.RacerId} already registered");
+
+//Dodaj uczestnictwo
+        _context.RaceParticipations.Add(new RaceParticipation
+        {
+            RacerId = participant.RacerId,
+            RaceId = race.RaceId,
+            TrackId = track.TrackId,
+            FinishTimeInSeconds = participant.FinishTimeInSeconds,
+            Position = participant.Position
+        });
+
+//Aktualizuj czas
+        if (participant.FinishTimeInSeconds < trackRace.BestTimeInSeconds)
+        {
+            trackRace.BestTimeInSeconds = participant.FinishTimeInSeconds;
+        }
+    }
+
+    await _context.SaveChangesAsync();
+    }
+}
