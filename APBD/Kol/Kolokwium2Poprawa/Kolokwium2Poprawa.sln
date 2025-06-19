@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kolokwium2Poprawa", "Kolokwium2Poprawa\Kolokwium2Poprawa.csproj", "{847970E3-03B0-4910-A1DF-C66E47597417}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{847970E3-03B0-4910-A1DF-C66E47597417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847970E3-03B0-4910-A1DF-C66E47597417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847970E3-03B0-4910-A1DF-C66E47597417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847970E3-03B0-4910-A1DF-C66E47597417}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
