@@ -1,8 +1,9 @@
 package MAS.MP1;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Osoba {
+public class Osoba implements Serializable {
 
     private String imie;
     private String nazwisko;
@@ -29,5 +30,13 @@ public class Osoba {
                 "Data urodzenia: " + dataUrodzenia + "\n" +
                 "Wiek: " + getWiek() + "\n" +
                 "Adres: " + adres);
+    }
+
+    public String getImie() {
+        return imie;
+    }
+
+    public String getNazwisko() {
+        return nazwisko;
     }
 }

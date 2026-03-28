@@ -7,6 +7,7 @@ import java.util.Optional;
 public class Trener extends Osoba{
 
     private int id;
+    private static int counter = 0;
     private String pseudonim;
     private double stawkaGodzinowa;
     //Atrybut klasowy
@@ -18,21 +19,22 @@ public class Trener extends Osoba{
 
 
     //Konstruktor dla obiektu z atrybutem opcojalnym
-    public Trener(String imie, String nazwisko, LocalDate dataUrodzenia, Adres adres, int id, String pseudonim,
+    public Trener(String imie, String nazwisko, LocalDate dataUrodzenia, Adres adres, String pseudonim,
                   double stawkaGodzinowa, Optional<Double> premia, List<String> specjalizacja) {
         super(imie, nazwisko, dataUrodzenia, adres);
-        this.id = id;
+        this.id = counter++;
         this.pseudonim = pseudonim;
         setStawkaGodzinowa(stawkaGodzinowa);
         this.premia = premia;
         this.specjalizacja = specjalizacja;
+
     }
 
     //Konstruktor dla obiektu bez atrybutu opcjonalnego
-    public Trener(String imie, String nazwisko, LocalDate dataUrodzenia, Adres adres, int id, String pseudonim,
+    public Trener(String imie, String nazwisko, LocalDate dataUrodzenia, Adres adres, String pseudonim,
                   double stawkaGodzinowa, List<String> specjalizacja) {
         super(imie, nazwisko, dataUrodzenia, adres);
-        this.id = id;
+        this.id = counter++;
         this.pseudonim = pseudonim;
         setStawkaGodzinowa(stawkaGodzinowa);
         this.specjalizacja = specjalizacja;
@@ -56,10 +58,10 @@ public class Trener extends Osoba{
     public void wypiszDane() {
         super.wypiszDane();
         System.out.println("\tDane trenerskie" + "\n" +
-                            "\tID: " + id + "\n" +
-                            "\tPseudonim: " + pseudonim + "\n" +
-                            "\tStawka godzinowa: " + stawkaGodzinowa + "\n" +
-                            "\tSpecjalizacja: " + specjalizacja);
+                "\tID: " + id + "\n" +
+                "\tPseudonim: " + pseudonim + "\n" +
+                "\tStawka godzinowa: " + stawkaGodzinowa + "\n" +
+                "\tSpecjalizacja: " + specjalizacja);
     }
 
     public double obliczKosztTreningu(){

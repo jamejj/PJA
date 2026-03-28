@@ -1,6 +1,9 @@
 package MAS.MP1;
 
-public class Adres {
+import java.io.Serializable;
+import java.util.Optional;
+
+public class Adres implements Serializable {
 
     private String miasto;
     private String ulica;
